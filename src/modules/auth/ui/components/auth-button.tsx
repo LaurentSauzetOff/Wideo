@@ -1,14 +1,18 @@
 "use client";
 
 import { ClapperboardIcon, UserCircleIcon, UserIcon } from "lucide-react";
-/* import { UserButton, SignInButton, SignedIn, SignedOut } from "@clerk/nextjs"; */
+import { UserButton, SignInButton, useAuth } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
 
 export const AuthButton = () => {
+  const { isSignedIn, isLoaded } = useAuth();
+
+  if (!isLoaded) return null;
+
   return (
     <>
-      {/* <SignedIn>
+      {isSignedIn ? (
         <UserButton>
           <UserButton.MenuItems>
             <UserButton.Link
@@ -24,8 +28,7 @@ export const AuthButton = () => {
             <UserButton.Action label="manageAccount" />
           </UserButton.MenuItems>
         </UserButton>
-      </SignedIn>
-      <SignedOut>
+      ) : (
         <SignInButton mode="modal">
           <Button
             variant="outline"
@@ -35,14 +38,7 @@ export const AuthButton = () => {
             Sign in
           </Button>
         </SignInButton>
-      </SignedOut> */}
-      <Button
-        variant="outline"
-        className="px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-500 border-blue-500/20 rounded-full shadow-none"
-      >
-        <UserCircleIcon />
-        Sign in
-      </Button>
+      )}
     </>
   );
 };

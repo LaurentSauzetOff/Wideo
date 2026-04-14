@@ -17,9 +17,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider afterSignOutUrl="/">
       <html suppressHydrationWarning lang="fr" className={inter.className}>
-        <body suppressHydrationWarning className="min-h-full flex flex-col">{children}</body>
+        <body suppressHydrationWarning className="min-h-full flex flex-col">
+          {children}
+        </body>
       </html>
     </ClerkProvider>
   );
