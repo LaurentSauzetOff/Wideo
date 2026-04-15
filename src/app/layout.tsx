@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
+/* import { TRPCProvider } from "@/trpc/server"; */
+import { TRPCReactProvider } from "@/trpc/client";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +22,7 @@ export default function RootLayout({
     <ClerkProvider afterSignOutUrl="/">
       <html suppressHydrationWarning lang="fr" className={inter.className}>
         <body suppressHydrationWarning className="min-h-full flex flex-col">
-          {children}
+          <TRPCReactProvider>{children}</TRPCReactProvider>
         </body>
       </html>
     </ClerkProvider>
