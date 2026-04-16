@@ -1,18 +1,15 @@
 import { z } from "zod";
-import { baseProcedure, createTRPCRouter } from "../init";
-import { TRPCError } from "@trpc/server";
+import { protectedProcedure, createTRPCRouter } from "../init";
+import { auth } from "@clerk/nextjs/server";
 export const appRouter = createTRPCRouter({
-  hello: baseProcedure
+  hello: protectedProcedure
     .input(
       z.object({
         text: z.string(),
       }),
     )
     .query((opts) => {
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: "This is an error from the server",
-      });
+      console.log({ dbUser: opts.ctx.user });
       return {
         greeting: `hello ${opts.input.text}`,
       };
