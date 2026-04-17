@@ -14,7 +14,6 @@ const Page = async () => {
   return (
     <HydrateClient>
       <StudioView />
-      <div>Studio</div>
     </HydrateClient>
   );
 };
