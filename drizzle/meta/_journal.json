@@ -15,6 +15,20 @@
       "when": 1776345206696,
       "tag": "0001_lush_lockheed",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1776442518147,
+      "tag": "0002_add_videos_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1776443404545,
+      "tag": "0003_add_categoryId_for_videos_table",
+      "breakpoints": true
     }
   ]
 }
