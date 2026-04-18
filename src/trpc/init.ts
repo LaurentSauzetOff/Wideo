@@ -1,7 +1,7 @@
 import { db } from '@/db';
 import { eq } from 'drizzle-orm';
 import { users } from '@/db/schema';
-import { auth } from '@clerk/nextjs/server';
+import { auth, clerkClient } from '@clerk/nextjs/server';
 import { initTRPC, TRPCError } from '@trpc/server';
 import { cache } from 'react';
 import superjson from "superjson";
@@ -36,14 +36,44 @@ export const protectedProcedure = t.procedure.use(async function isAuthed(opts) 
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
 
-  const [user] = await db
+  let [user] = await db
     .select()
     .from(users)
     .where(eq(users.clerkId, ctx.clerkUserId))
     .limit(1);
 
   if (!user) {
-    throw new TRPCError({ code: "UNAUTHORIZED" });
+    const client = await clerkClient();
+    const clerkUser = await client.users.getUser(ctx.clerkUserId).catch(() => null);
+
+    if (!clerkUser) {
+      throw new TRPCError({ code: "UNAUTHORIZED" });
+    }
+
+    const name =
+      [clerkUser.firstName, clerkUser.lastName].filter(Boolean).join(" ") ||
+      clerkUser.username ||
+      clerkUser.primaryEmailAddress?.emailAddress ||
+      "Unknown User";
+
+    const [upsertedUser] = await db
+      .insert(users)
+      .values({
+        clerkId: ctx.clerkUserId,
+        name,
+        imageUrl: clerkUser.imageUrl || "",
+      })
+      .onConflictDoUpdate({
+        target: users.clerkId,
+        set: {
+          name,
+          imageUrl: clerkUser.imageUrl || "",
+          updatedAt: new Date(),
+        },
+      })
+      .returning();
+
+    user = upsertedUser;
   }
 
   const { success } = await ratelimit.limit(user.id);

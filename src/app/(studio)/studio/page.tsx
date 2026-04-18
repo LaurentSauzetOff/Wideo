@@ -7,9 +7,13 @@ import { DEFAULT_LIMIT } from "@/constants";
 export const dynamic = "force-dynamic";
 
 const Page = async () => {
-  void trpc.studio.getMany.prefetchInfinite({
-    limit: DEFAULT_LIMIT,
-  });
+  try {
+    await trpc.studio.getMany.prefetchInfinite({
+      limit: DEFAULT_LIMIT,
+    });
+  } catch {
+    // Avoid dehydrating a pending query that later rejects on the client.
+  }
 
   return (
     <HydrateClient>
