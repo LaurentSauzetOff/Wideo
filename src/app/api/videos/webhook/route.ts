@@ -77,15 +77,15 @@ export const POST = async (request: Request) => {
         return new Response("Missing playback ID", { status: 400 });
       }
 
-      const tempThumbnailUrl = `https://image.mux.com/${playbackId}/thumbnail.jpg`;
-      const tempPreviewUrl = `https://image.mux.com/${playbackId}/animated.gif`;
+      const thumbnailUrl = `https://image.mux.com/${playbackId}/thumbnail.jpg`;
+      const previewUrl = `https://image.mux.com/${playbackId}/animated.gif`;
       const duration = data.duration ? Math.round(data.duration * 1000) : 0;
 
       /* const utapi = new UTApi(); */
       //const [uploadedThumbnail, uploadedPreview] =
-       // await utapi.uploadFilesFromUrl([tempThumbnailUrl, tempPreviewUrl]);
+      // await utapi.uploadFilesFromUrl([tempThumbnailUrl, tempPreviewUrl]);
 
-    /*   if (!uploadedThumbnail.data || !uploadedPreview.data) {
+      /*   if (!uploadedThumbnail.data || !uploadedPreview.data) {
         return new Response("Failed to upload thumbnail or preview", {
           status: 500,
         });
@@ -100,11 +100,9 @@ export const POST = async (request: Request) => {
           muxStatus: data.status,
           muxPlaybackId: playbackId,
           muxAssetId: data.id,
-        /*   thumbnailUrl,
-          thumbnailKey,
+          thumbnailUrl,
           previewUrl,
-          previewKey, */
-         // duration,
+          duration,
         })
         .where(eq(videos.muxUploadId, data.upload_id));
       break;
