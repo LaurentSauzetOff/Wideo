@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
         hostname: "image.mux.com",
       },
     ],
-  }
+  },
 };
 
 export default nextConfig;

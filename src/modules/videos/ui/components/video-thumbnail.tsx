@@ -2,7 +2,7 @@ import Image from "next/image";
 
 /* import { formatDuration } from "@/lib/utils"; */
 
-/* import { THUMBNAIL_FALLBACK } from "../../constants"; */
+import { THUMBNAIL_FALLBACK } from "../../constants";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDuration } from "@/lib/utils";
 
@@ -32,14 +32,14 @@ export const VideoThumbnail = ({
       {/* Thumbnail wrapper */}
       <div className="relative w-full overflow-hidden rounded-xl aspect-video">
         <Image
-          src={imageUrl ?? "/placeholder.svg"}
+          src={imageUrl ?? THUMBNAIL_FALLBACK}
           alt={title}
           fill
           className="h-full w-full object-cover group-hover:opacity-0"
         />
         <Image
           unoptimized={!!previewUrl}
-          src={previewUrl ?? "/placeholder.svg"}
+          src={previewUrl ?? THUMBNAIL_FALLBACK}
           alt={title}
           fill
           className="h-full w-full object-cover opacity-0 group-hover:opacity-100"

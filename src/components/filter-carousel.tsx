@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useLayoutEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -34,17 +34,24 @@ export const FilterCarousel = ({
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
 
-  useEffect(() => {
-    if (!api) {
-      return;
-    }
+  useLayoutEffect(() => {
+    if (!api) return;
 
+    // These setState calls are intentional: initialize carousel state when API changes
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCount(api.scrollSnapList().length);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCurrent(api.selectedScrollSnap() + 1);
 
-    api.on("select", () => {
+    const handleSelect = () => {
       setCurrent(api.selectedScrollSnap() + 1);
-    });
+    };
+
+    api.on("select", handleSelect);
+    
+    return () => {
+      api.off("select", handleSelect);
+    };
   }, [api]);
 
   return (

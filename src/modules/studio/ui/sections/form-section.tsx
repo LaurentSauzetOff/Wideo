@@ -52,10 +52,10 @@ import {
 } from "@/components/ui/select";
 
 // import { APP_URL } from "@/constants";
-//import { THUMBNAIL_FALLBACK } from "@/modules/videos/constants";
+import { THUMBNAIL_FALLBACK } from "@/modules/videos/constants";
 import { VideoPlayer } from "@/modules/videos/ui/components/video-player";
 
-//import { ThumbnailUploadModal } from "../components/thumbnail-upload-modal";
+import { ThumbnailUploadModal } from "../components/thumbnail-upload-modal";
 // import { ThumbnailGenerateModal } from "../components/thumbnail-generate-modal";
 
 interface FormSectionProps {
@@ -194,7 +194,7 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
     },
   }); */
 
-  /* const restoreThumbnail = trpc.videos.restoreThumbnail.useMutation({
+  const restoreThumbnail = trpc.videos.restoreThumbnail.useMutation({
     onSuccess: () => {
       utils.studio.getMany.invalidate();
       utils.studio.getOne.invalidate({ id: videoId });
@@ -203,7 +203,7 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
     onError: () => {
       toast.error("Something went wrong");
     },
-  }); */
+  });
 
   const form = useForm<z.infer<typeof videoUpdateSchema>>({
     resolver: zodResolver(videoUpdateSchema),
@@ -234,11 +234,11 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
         onOpenChange={setThumbnailGenerateModalOpen}
         videoId={videoId}
       /> */}
-      {/*  <ThumbnailUploadModal
+      <ThumbnailUploadModal
         open={thumbnailModalOpen}
         onOpenChange={setThumbnailModalOpen}
         videoId={videoId}
-      /> */}
+      />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="flex items-center justify-between mb-6">
@@ -356,7 +356,7 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
                   </FormItem>
                 )}
               />
-              {/* <FormField
+              <FormField
                 name="thumbnailUrl"
                 control={form.control}
                 render={() => (
@@ -409,7 +409,7 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
                     </FormControl>
                   </FormItem>
                 )}
-              /> */}
+              />
               <FormField
                 control={form.control}
                 name="categoryId"
