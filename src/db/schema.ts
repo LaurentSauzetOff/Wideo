@@ -82,6 +82,57 @@ export const videos = pgTable("videos", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+// TEMP: Minimal table definitions to keep current router imports typed
+// until full modules/migrations for these entities are added.
+export const subscriptions = pgTable("subscriptions", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  viewerId: uuid("viewer_id")
+    .references(() => users.id, {
+      onDelete: "cascade",
+    })
+    .notNull(),
+  creatorId: uuid("creator_id")
+    .references(() => users.id, {
+      onDelete: "cascade",
+    })
+    .notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const reactionType = pgEnum("reaction_type", ["like", "dislike"]);
+
+export const videoReactions = pgTable("video_reactions", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  videoId: uuid("video_id")
+    .references(() => videos.id, {
+      onDelete: "cascade",
+    })
+    .notNull(),
+  userId: uuid("user_id")
+    .references(() => users.id, {
+      onDelete: "cascade",
+    })
+    .notNull(),
+  type: reactionType("type").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const videoViews = pgTable("video_views", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  videoId: uuid("video_id")
+    .references(() => videos.id, {
+      onDelete: "cascade",
+    })
+    .notNull(),
+  userId: uuid("user_id").references(() => users.id, {
+    onDelete: "set null",
+  }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 export const videoSelectSchema = createSelectSchema(videos);
 export const videoInsertSchema = createInsertSchema(videos);
 export const videoUpdateSchema = createUpdateSchema(videos);
@@ -96,3 +147,5 @@ export const videoRelations = relations(videos, ({ one }) => ({
     references: [categories.id],
   }),
 }));
+
+
