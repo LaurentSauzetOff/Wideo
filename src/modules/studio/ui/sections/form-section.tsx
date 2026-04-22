@@ -51,12 +51,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-// import { APP_URL } from "@/constants";
+import { APP_URL } from "@/constants";
 import { THUMBNAIL_FALLBACK } from "@/modules/videos/constants";
 import { VideoPlayer } from "@/modules/videos/ui/components/video-player";
 
 import { ThumbnailUploadModal } from "../components/thumbnail-upload-modal";
-// import { ThumbnailGenerateModal } from "../components/thumbnail-generate-modal";
+import { ThumbnailGenerateModal } from "../components/thumbnail-generate-modal";
 
 interface FormSectionProps {
   videoId: string;
@@ -232,8 +232,7 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
     update.mutate(data);
   };
 
-  // const fullUrl = `${APP_URL}/videos/${videoId}`;
-  const fullUrl = `${process.env.VERCEL_URL || "http://localhost:3000"}/videos/${videoId}`;
+  const fullUrl = `${APP_URL}/videos/${videoId}`;
   const [isCopied, setIsCopied] = useState(false);
 
   const onCopy = async () => {
@@ -247,11 +246,11 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
 
   return (
     <>
-      {/*  <ThumbnailGenerateModal
+      <ThumbnailGenerateModal
         open={thumbnailGenerateModalOpen}
         onOpenChange={setThumbnailGenerateModalOpen}
         videoId={videoId}
-      /> */}
+      />
       <ThumbnailUploadModal
         open={thumbnailModalOpen}
         onOpenChange={setThumbnailModalOpen}
@@ -308,7 +307,7 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
                           variant="outline"
                           type="button"
                           className="rounded-full size-6 [&_svg]:size-3"
-                          // onClick={() => generateTitle.mutate({ id: videoId })}
+                          onClick={() => generateTitle.mutate({ id: videoId })}
                           disabled={
                             generateTitle.isPending || !video.muxTrackId
                           }
@@ -445,9 +444,9 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
                       <SelectContent>
                         {categories.map(
                           (category: { id: string; name: string }) => (
-                          <SelectItem key={category.id} value={category.id}>
-                            {category.name}
-                          </SelectItem>
+                            <SelectItem key={category.id} value={category.id}>
+                              {category.name}
+                            </SelectItem>
                           ),
                         )}
                       </SelectContent>
