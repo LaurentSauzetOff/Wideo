@@ -23,6 +23,7 @@ import {
 import {
   subscriptions,
   users,
+  videoVisibility,
   videoReactions,
   videos,
   videoUpdateSchema,
@@ -349,7 +350,7 @@ export const videosRouter = createTRPCRouter({
 
       return existingVideo;
     }),
-  /* generateDescription: protectedProcedure
+  generateDescription: protectedProcedure
     .input(z.object({ id: z.string().uuid() }))
     .mutation(async ({ ctx, input }) => {
       const { id: userId } = ctx.user;
@@ -360,8 +361,8 @@ export const videosRouter = createTRPCRouter({
       });
 
       return workflowRunId;
-    }), */
-  /*  generateTitle: protectedProcedure
+    }),
+  generateTitle: protectedProcedure
     .input(z.object({ id: z.string().uuid() }))
     .mutation(async ({ ctx, input }) => {
       const { id: userId } = ctx.user;
@@ -372,7 +373,7 @@ export const videosRouter = createTRPCRouter({
       });
 
       return workflowRunId;
-    }), */
+    }),
   generateThumbnail: protectedProcedure
     .input(z.object({ id: z.string().uuid(), prompt: z.string().min(10) }))
     .mutation(async ({ ctx, input }) => {
@@ -500,7 +501,11 @@ export const videosRouter = createTRPCRouter({
       return removedVideo;
     }),
   update: protectedProcedure
-    .input(videoUpdateSchema)
+    .input(
+      videoUpdateSchema.extend({
+        visibility: z.enum(videoVisibility.enumValues).optional(),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       const { id: userId } = ctx.user;
 
