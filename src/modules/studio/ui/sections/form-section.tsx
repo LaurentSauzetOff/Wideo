@@ -25,7 +25,7 @@ import {
 import { trpc } from "@/trpc/client";
 import { Input } from "@/components/ui/input";
 import { snakeCaseToTitle } from "@/lib/utils";
-import { videoUpdateSchema } from "@/db/schema";
+import { videoUpdateSchema, videoVisibility } from "@/db/schema";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
@@ -61,6 +61,19 @@ import { ThumbnailUploadModal } from "../components/thumbnail-upload-modal";
 interface FormSectionProps {
   videoId: string;
 }
+
+const formSchema = videoUpdateSchema.extend({
+  visibility: z.enum(videoVisibility.enumValues).optional(),
+});
+
+type VideoVisibility = (typeof videoVisibility.enumValues)[number];
+
+const isVideoVisibility = (value: unknown): value is VideoVisibility => {
+  return (
+    typeof value === "string" &&
+    videoVisibility.enumValues.includes(value as VideoVisibility)
+  );
+};
 
 export const FormSection = ({ videoId }: FormSectionProps) => {
   return (
@@ -173,7 +186,7 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
     },
   }); */
 
-  /* const generateDescription = trpc.videos.generateDescription.useMutation({
+  const generateDescription = trpc.videos.generateDescription.useMutation({
     onSuccess: () => {
       toast.success("Background job started", {
         description: "This may take some time",
@@ -182,8 +195,8 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
     onError: () => {
       toast.error("Something went wrong");
     },
-  }); */
-  /* const generateTitle = trpc.videos.generateTitle.useMutation({
+  });
+  const generateTitle = trpc.videos.generateTitle.useMutation({
     onSuccess: () => {
       toast.success("Background job started", {
         description: "This may take some time",
@@ -192,7 +205,7 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
     onError: () => {
       toast.error("Something went wrong");
     },
-  }); */
+  });
 
   const restoreThumbnail = trpc.videos.restoreThumbnail.useMutation({
     onSuccess: () => {
@@ -205,12 +218,17 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
     },
   });
 
-  const form = useForm<z.infer<typeof videoUpdateSchema>>({
-    resolver: zodResolver(videoUpdateSchema),
-    defaultValues: video,
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      ...video,
+      visibility: isVideoVisibility(video.visibility)
+        ? video.visibility
+        : undefined,
+    },
   });
 
-  const onSubmit = (data: z.infer<typeof videoUpdateSchema>) => {
+  const onSubmit = (data: z.infer<typeof formSchema>) => {
     update.mutate(data);
   };
 
@@ -283,15 +301,14 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Title
-                      {/*  <div className="flex items-center gap-x-2">
+                      <div className="flex items-center gap-x-2">
                         Title
                         <Button
                           size="icon"
                           variant="outline"
                           type="button"
                           className="rounded-full size-6 [&_svg]:size-3"
-                         // onClick={() => generateTitle.mutate({ id: videoId })}
+                          // onClick={() => generateTitle.mutate({ id: videoId })}
                           disabled={
                             generateTitle.isPending || !video.muxTrackId
                           }
@@ -302,7 +319,7 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
                             <SparklesIcon />
                           )}
                         </Button>
-                      </div> */}
+                      </div>
                     </FormLabel>
                     <FormControl>
                       <Input
@@ -321,7 +338,7 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
                   <FormItem>
                     <FormLabel>
                       Description
-                      {/*  <div className="flex items-center gap-x-2">
+                      <div className="flex items-center gap-x-2">
                         Description
                         <Button
                           size="icon"
@@ -341,7 +358,7 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
                             <SparklesIcon />
                           )}
                         </Button>
-                      </div> */}
+                      </div>
                     </FormLabel>
                     <FormControl>
                       <Textarea
@@ -418,7 +435,7 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
                     <FormLabel>Category</FormLabel>
                     <Select
                       onValueChange={field.onChange}
-                      defaultValue={field.value ?? undefined}
+                      value={field.value ?? undefined}
                     >
                       <FormControl>
                         <SelectTrigger>
@@ -426,11 +443,13 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {categories.map((category) => (
+                        {categories.map(
+                          (category: { id: string; name: string }) => (
                           <SelectItem key={category.id} value={category.id}>
                             {category.name}
                           </SelectItem>
-                        ))}
+                          ),
+                        )}
                       </SelectContent>
                     </Select>
                     <FormMessage />
