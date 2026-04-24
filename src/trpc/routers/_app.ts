@@ -5,7 +5,7 @@ import { categoriesRouter } from "@/modules/categories/server/procedures";
 //import { searchRouter } from "@/modules/search/server/procedures";
 //import { commentsRouter } from "@/modules/comments/server/procedures";
 //import { playlistsRouter } from "@/modules/playlists/server/procedures";
-//import { videoViewsRouter } from "@/modules/video-views/server/procedures";
+import { videoViewsRouter } from "@/modules/video-views/server/procedures";
 //import { suggestionsRouter } from "@/modules/suggestions/server/procedures";
 //import { subscriptionsRouter } from "@/modules/subscriptions/server/procedures";
 //import { videoReactionsRouter } from "@/modules/video-reactions/server/procedures";
@@ -19,11 +19,11 @@ export const appRouter = createTRPCRouter({
   videos: videosRouter,
   categories: categoriesRouter,
   //search: searchRouter,
-  /* comments: commentsRouter,
+  /*  comments: commentsRouter,
   playlists: playlistsRouter,
-  categories: categoriesRouter,
+  categories: categoriesRouter, */
   videoViews: videoViewsRouter,
-  suggestions: suggestionsRouter,
+  /* suggestions: suggestionsRouter,
   subscriptions: subscriptionsRouter,
   videoReactions: videoReactionsRouter,
   commentReactions: commentReactionsRouter, */
