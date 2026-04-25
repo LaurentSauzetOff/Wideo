@@ -34,14 +34,20 @@ export const CommentsSectionSkeleton = () => {
 };
 
 const CommentsSectionSuspense = ({ videoId }: CommentsSectionProps) => {
+  const infiniteQueryOptions: Parameters<
+    typeof trpc.comments.getMany.useSuspenseInfiniteQuery
+  >[1] = {
+    getNextPageParam: (lastPage: {
+      nextCursor: { id: string; updatedAt: Date } | null;
+    }) => lastPage.nextCursor,
+  };
+
   const [comments, query] = trpc.comments.getMany.useSuspenseInfiniteQuery(
     {
       videoId,
       limit: DEFAULT_LIMIT,
     },
-    {
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
-    },
+    infiniteQueryOptions,
   );
 
   return (

@@ -55,15 +55,21 @@ const SuggestionsSectionSuspense = ({
   videoId,
   isManual,
 }: SuggestionsSectionProps) => {
+  const infiniteQueryOptions: Parameters<
+    typeof trpc.suggestions.getMany.useSuspenseInfiniteQuery
+  >[1] = {
+    getNextPageParam: (lastPage: {
+      nextCursor: { id: string; updatedAt: Date } | null;
+    }) => lastPage.nextCursor,
+  };
+
   const [suggestions, query] =
     trpc.suggestions.getMany.useSuspenseInfiniteQuery(
       {
         videoId,
         limit: DEFAULT_LIMIT,
       },
-      {
-        getNextPageParam: (lastPage) => lastPage.nextCursor,
-      },
+      infiniteQueryOptions,
     );
 
   return (
