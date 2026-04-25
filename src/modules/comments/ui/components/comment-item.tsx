@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { CommentForm } from "./comment-form";
-// import { CommentReplies } from "./comment-replies";
+import { CommentReplies } from "./comment-replies";
 import { CommentsGetManyOutput } from "../../types";
 
 interface CommentItemProps {
@@ -59,7 +59,7 @@ export const CommentItem = ({
     },
   });
 
-   const like = trpc.commentReactions.like.useMutation({
+  const like = trpc.commentReactions.like.useMutation({
     onSuccess: () => {
       utils.comments.getMany.invalidate({ videoId: comment.videoId });
     },
@@ -82,7 +82,7 @@ export const CommentItem = ({
         clerk.openSignIn();
       }
     },
-  }); 
+  });
 
   return (
     <div>
@@ -110,7 +110,7 @@ export const CommentItem = ({
           <p className="text-sm">{comment.value}</p>
           <div className="flex items-center gap-2 mt-1">
             <div className="flex items-center">
-               <Button
+              <Button
                 disabled={like.isPending}
                 variant="ghost"
                 size="icon"
@@ -122,7 +122,7 @@ export const CommentItem = ({
                     comment.viewerReaction === "like" && "fill-black",
                   )}
                 />
-              </Button> 
+              </Button>
               <span className="text-xs text-muted-foreground">
                 {comment.likeCount}
               </span>
@@ -138,7 +138,7 @@ export const CommentItem = ({
                     comment.viewerReaction === "dislike" && "fill-black",
                   )}
                 />
-              </Button> 
+              </Button>
               <span className="text-xs text-muted-foreground">
                 {comment.dislikeCount}
               </span>
@@ -191,7 +191,7 @@ export const CommentItem = ({
           />
         </div>
       )}
-      {/* {comment.replyCount > 0 && variant === "comment" && (
+      {comment.replyCount > 0 && variant === "comment" && (
         <div className="pl-14">
           <Button
             variant="tertiary"
@@ -199,13 +199,13 @@ export const CommentItem = ({
             onClick={() => setIsRepliesOpen((current) => !current)}
           >
             {isRepliesOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
-            {comment.replyCount} replies
+            {comment.replyCount} réponses
           </Button>
         </div>
       )}
       {comment.replyCount > 0 && variant === "comment" && isRepliesOpen && (
         <CommentReplies parentId={comment.id} videoId={comment.videoId} />
-      )} */}
+      )}
     </div>
   );
 };

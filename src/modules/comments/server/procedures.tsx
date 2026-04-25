@@ -25,7 +25,7 @@ export const commentsRouter = createTRPCRouter({
   remove: protectedProcedure
     .input(
       z.object({
-        id: z.string().uuid(),
+        id: z.uuid(),
       }),
     )
     .mutation(async ({ input, ctx }) => {
@@ -46,8 +46,8 @@ export const commentsRouter = createTRPCRouter({
   create: protectedProcedure
     .input(
       z.object({
-        parentId: z.string().uuid().nullish(),
-        videoId: z.string().uuid(),
+        parentId: z.uuid().nullish(),
+        videoId: z.uuid(),
         value: z.string(),
       }),
     )
@@ -78,11 +78,11 @@ export const commentsRouter = createTRPCRouter({
   getMany: baseProcedure
     .input(
       z.object({
-        videoId: z.string().uuid(),
-        parentId: z.string().uuid().nullish(),
+        videoId: z.uuid(),
+        parentId: z.uuid().nullish(),
         cursor: z
           .object({
-            id: z.string().uuid(),
+            id: z.uuid(),
             updatedAt: z.date(),
           })
           .nullish(),
