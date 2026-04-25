@@ -103,11 +103,11 @@ export const FormSectionSkeleton = () => {
           </div>
           <div className="space-y-2">
             <Skeleton className="h-5 w-24" />
-            <Skeleton className="h-[220px] w-full" />
+            <Skeleton className="h-55 w-full" />
           </div>
           <div className="space-y-2">
             <Skeleton className="h-5 w-20" />
-            <Skeleton className="h-[84px] w-[153px]" />
+            <Skeleton className="h-21 w-38.25" />
           </div>
           <div className="space-y-2">
             <Skeleton className="h-5 w-20" />
@@ -379,7 +379,7 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
                   <FormItem>
                     <FormLabel>Thumbnail</FormLabel>
                     <FormControl>
-                      <div className="p-0.5 border border-dashed border-neutral-400 relative h-[84px] w-[153px] group">
+                      <div className="p-0.5 border border-dashed border-neutral-400 relative h-21 w-38.25 group">
                         <Image
                           src={video.thumbnailUrl || THUMBNAIL_FALLBACK}
                           className="object-cover"

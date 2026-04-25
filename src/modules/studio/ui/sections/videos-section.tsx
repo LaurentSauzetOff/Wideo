@@ -38,7 +38,7 @@ const VideosSectionSkeleton = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="pl-6 w-[510px]">Video</TableHead>
+              <TableHead className="pl-6 w-127.5">Video</TableHead>
               <TableHead>Visibility</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Date</TableHead>
@@ -54,8 +54,8 @@ const VideosSectionSkeleton = () => {
                   <div className="flex items-center gap-4">
                     <Skeleton className="h-20 w-36" />
                     <div className="flex flex-col gap-2">
-                      <Skeleton className="h-4 w-[100px]" />
-                      <Skeleton className="h-3 w-[150px]" />
+                      <Skeleton className="h-4 w-25" />
+                      <Skeleton className="h-3 w-37.5" />
                     </div>
                   </div>
                 </TableCell>
