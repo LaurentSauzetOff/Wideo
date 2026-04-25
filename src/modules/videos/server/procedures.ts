@@ -23,7 +23,6 @@ import {
 import {
   subscriptions,
   users,
-  videoVisibility,
   videoReactions,
   videos,
   videoUpdateSchema,
@@ -501,11 +500,7 @@ export const videosRouter = createTRPCRouter({
       return removedVideo;
     }),
   update: protectedProcedure
-    .input(
-      videoUpdateSchema.extend({
-        visibility: z.enum(videoVisibility.enumValues).optional(),
-      }),
-    )
+    .input(videoUpdateSchema)
     .mutation(async ({ ctx, input }) => {
       const { id: userId } = ctx.user;
 

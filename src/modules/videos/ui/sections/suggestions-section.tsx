@@ -7,7 +7,7 @@ import { trpc } from "@/trpc/client";
 import { DEFAULT_LIMIT } from "@/constants";
 import { InfiniteScroll } from "@/components/infinite-scroll";
 
-/* import {
+import {
   VideoGridCard,
   VideoGridCardSkeleton,
 } from "../components/video-grid-card";
@@ -15,7 +15,7 @@ import {
   VideoRowCard,
   VideoRowCardSkeleton,
 } from "../components/video-row-card";
- */
+
 interface SuggestionsSectionProps {
   videoId: string;
   isManual?: boolean;

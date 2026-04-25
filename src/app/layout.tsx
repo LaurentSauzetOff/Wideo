@@ -5,6 +5,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
 import { TRPCProvider } from "@/trpc/client";
 import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,8 +24,10 @@ export default function RootLayout({
       <html suppressHydrationWarning lang="fr" className={inter.className}>
         <body suppressHydrationWarning className="min-h-full flex flex-col">
           <TRPCProvider>
-            <Toaster />
-            {children}
+            <TooltipProvider>
+              <Toaster />
+              {children}
+            </TooltipProvider>
           </TRPCProvider>
         </body>
       </html>
