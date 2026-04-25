@@ -6,6 +6,5 @@ export type VideoGetOneOutput =
   inferRouterOutputs<AppRouter>["videos"]["getOne"];
 
 // TODO: Change to videos getMany
-/* export type VideoGetManyOutput =
+export type VideoGetManyOutput =
   inferRouterOutputs<AppRouter>["suggestions"]["getMany"];
- */

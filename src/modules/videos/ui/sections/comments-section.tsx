@@ -47,13 +47,14 @@ const CommentsSectionSuspense = ({ videoId }: CommentsSectionProps) => {
         <h1 className="text-xl font-bold">
           {comments.pages[0].totalCount} Comments
         </h1>
-        <CommentForm videoId={videoId} />
+       {/*  <CommentForm videoId={videoId} /> */}
         <div className="flex flex-col  gap-4 mt-2">
           {comments.pages.flatMap((page) => page.items).map((comment) => (
-            <CommentItem
+           /*  <CommentItem
               key={comment.id}
               comment={comment}
-            />
+            /> */
+            <p key={comment.id}>{comment.content}</p>
           ))}
           <InfiniteScroll
             isManual
