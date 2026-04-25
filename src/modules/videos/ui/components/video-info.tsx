@@ -18,7 +18,7 @@ interface VideoInfoProps {
 export const VideoInfoSkeleton = () => {
   return (
     <div className="flex gap-3">
-      <Skeleton className="size-10 flex-shrink-0 rounded-full" />
+      <Skeleton className="size-10 shrink-0 rounded-full" />
       <div className="min-w-0 flex-1 space-y-2">
         <Skeleton className="h-5 w-[90%]" />
         <Skeleton className="h-5 w-[70%]" />
@@ -45,7 +45,7 @@ export const VideoInfo = ({ data, onRemove }: VideoInfoProps) => {
       </Link>
       <div className="min-w-0 flex-1">
         <Link prefetch href={`/videos/${data.id}`}>
-          <h3 className="font-medium line-clamp-1 lg:line-clamp-2 text-base break-words">
+          <h3 className="font-medium line-clamp-1 lg:line-clamp-2 text-base wrap-break-word">
             {data.title}
           </h3>
         </Link>
@@ -58,7 +58,7 @@ export const VideoInfo = ({ data, onRemove }: VideoInfoProps) => {
           </p>
         </Link>
       </div>
-      <div className="flex-shrink-0">
+      <div className="shrink-0">
         <VideoMenu videoId={data.id} onRemove={onRemove} />
       </div>
     </div>
