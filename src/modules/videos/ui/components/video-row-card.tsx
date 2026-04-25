@@ -12,10 +12,10 @@ import {
 
 import { UserAvatar } from "@/components/user-avatar";
 import { UserInfo } from "@/modules/users/ui/components/user-info";
+import { VideoGetManyOutput } from "../../types";
 
 import { VideoMenu } from "./video-menu";
 import { VideoThumbnail, VideoThumbnailSkeleton } from "./video-thumbnail";
-//import { VideoGetManyOutput } from "../../types";
 
 const videoRowCardVariants = cva("group flex min-w-0", {
   variants: {
@@ -42,7 +42,7 @@ const thumbnailVariants = cva("relative flex-none", {
 });
 
 interface VideoRowCardProps extends VariantProps<typeof videoRowCardVariants> {
-  /* data: VideoGetManyOutput["items"][number]; */
+  data: VideoGetManyOutput["items"][number];
   onRemove?: () => void;
 }
 
