@@ -59,7 +59,7 @@ export const CommentItem = ({
     },
   });
 
-  /* const like = trpc.commentReactions.like.useMutation({
+   const like = trpc.commentReactions.like.useMutation({
     onSuccess: () => {
       utils.comments.getMany.invalidate({ videoId: comment.videoId });
     },
@@ -82,7 +82,7 @@ export const CommentItem = ({
         clerk.openSignIn();
       }
     },
-  }); */
+  }); 
 
   return (
     <div>
@@ -110,7 +110,7 @@ export const CommentItem = ({
           <p className="text-sm">{comment.value}</p>
           <div className="flex items-center gap-2 mt-1">
             <div className="flex items-center">
-             {/*  <Button
+               <Button
                 disabled={like.isPending}
                 variant="ghost"
                 size="icon"
@@ -122,11 +122,11 @@ export const CommentItem = ({
                     comment.viewerReaction === "like" && "fill-black",
                   )}
                 />
-              </Button> */}
+              </Button> 
               <span className="text-xs text-muted-foreground">
                 {comment.likeCount}
               </span>
-              {/* <Button
+              <Button
                 disabled={dislike.isPending}
                 variant="ghost"
                 size="icon"
@@ -138,7 +138,7 @@ export const CommentItem = ({
                     comment.viewerReaction === "dislike" && "fill-black",
                   )}
                 />
-              </Button> */}
+              </Button> 
               <span className="text-xs text-muted-foreground">
                 {comment.dislikeCount}
               </span>
